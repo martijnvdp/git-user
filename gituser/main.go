@@ -26,7 +26,22 @@ var rootCmd = &cobra.Command{
 		revoce github account
 	  - set
 	    set active github account `,
-	Run: func(cmd *cobra.Command, args []string) { fmt.Println("use one of the command line arguments") },
+	Run: func(cmd *cobra.Command, args []string) {
+		a, err := cmd.Flags().GetBool("add")
+		l, err := cmd.Flags().GetBool("list")
+		s, err := cmd.Flags().GetBool("set")
+		if a && err == nil {
+			adduser()
+		}
+		if l && err == nil {
+			listusers()
+		}
+		if s && err == nil {
+			setuser()
+		}
+		fmt.Println("use one of the command line arguments")
+
+	},
 }
 
 func Execute() {
@@ -41,6 +56,8 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.my-calc.yaml)")
 	rootCmd.Flags().BoolP("list", "l", false, "List github users")
+	rootCmd.Flags().BoolP("add", "a", false, "add github user")
+	rootCmd.Flags().BoolP("set", "s", false, "set active github user")
 }
 
 func initConfig() {
