@@ -30,6 +30,7 @@ var rootCmd = &cobra.Command{
 		a, err := cmd.Flags().GetBool("add")
 		l, err := cmd.Flags().GetBool("list")
 		s, err := cmd.Flags().GetBool("set")
+		u, err := cmd.Flags().GetBool("unset")
 		if a && err == nil {
 			adduser()
 		}
@@ -38,6 +39,9 @@ var rootCmd = &cobra.Command{
 		}
 		if s && err == nil {
 			setuser()
+		}
+		if u && err == nil {
+			unsetuser()
 		}
 		fmt.Println("use one of the command line arguments")
 
@@ -58,6 +62,8 @@ func init() {
 	rootCmd.Flags().BoolP("list", "l", false, "List github users")
 	rootCmd.Flags().BoolP("add", "a", false, "add github user")
 	rootCmd.Flags().BoolP("set", "s", false, "set active github user")
+	rootCmd.Flags().BoolP("unset", "u", false, "unset active github user")
+
 }
 
 func initConfig() {

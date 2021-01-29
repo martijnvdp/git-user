@@ -31,9 +31,9 @@ func setuser() {
 	if err != nil {
 		error.Error(err)
 	} else {
-		cmd := exec.Command("git", "config", "--global", "user.name", username)
+		cmd := exec.Command("git", "config", "--local", "user.name", username)
 		_, err := cmd.Output()
-		cmd = exec.Command("git", "config", "--global", "user.email", email)
+		cmd = exec.Command("git", "config", "--local", "user.email", email)
 		_, err = cmd.Output()
 		if err != nil {
 			fmt.Println(err.Error())
