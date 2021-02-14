@@ -28,15 +28,15 @@ import (
 
 var cfgFile string
 
-type gituserdata struct {
-	userName  string `mapstructure:"user_name"`
-	userEmail string `mapstructure:"user_email"`
-	userToken string `mapstructure:"user_token"`
+type Userdata struct {
+	Name  string `mapstructure:"name"`
+	Email string `mapstructure:"email"`
+	Token string `mapstructure:"token"`
 }
 
-type gitusers struct {
-	users      gituserdata
-	configfile string `mapstructure:"config_file"`
+type Gitusers struct {
+	Users      []Userdata `mapstructure:"users"`
+	Configfile string     `mapstructure:"config_file"`
 }
 
 // rootCmd represents the base command when called without any subcommands
@@ -67,8 +67,7 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	var git_users gitusers
-	var git_userdata gituserdata
+	var git_users Gitusers
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
@@ -86,11 +85,8 @@ func initConfig() {
 		viper.SetConfigType(configType)
 		cfgFile = filepath.Join(home, configName+"."+configType)
 	}
-	viper.SetEnvPrefix("GITUSER_") //not working
 	viper.AllowEmptyEnv(true)
-	viper.AutomaticEnv()
 	viper.Unmarshal(&git_users)
-	viper.Unmarshal(&git_userdata)
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	} else {
