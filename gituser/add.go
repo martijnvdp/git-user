@@ -6,33 +6,43 @@ import (
 	"github.com/spf13/viper"
 )
 
-type gituserdata struct {
-	userName  string `mapstructure:"user_name"`
-	userEmail string `mapstructure:"user_email"`
-	userToken string `mapstructure:"user_token"`
+type Userdata struct {
+	Name  string `mapstructure:"name"`
+	Email string `mapstructure:"email"`
+	Token string `mapstructure:"token"`
 }
 
-type gitusers struct {
-	users      gituserdata
-	configfile string `mapstructure:"config_file"`
+type Gitusers struct {
+	Users      []Userdata `mapstructure:"users"`
+	Configfile string     `mapstructure:"config_file"`
+}
+
+func Writeuser(usr Gitusers) {
+	for _, u := range usr.Users {
+
+		if u.Name != "" {
+			viper.Set("users.user_name", u.Name)
+			viper.Set("users.user_email", u.Email)
+			viper.Set("users.user_token", u.Token)
+			viper.WriteConfig()
+		}
+
+	}
 }
 
 func Adduser() {
-	var userdata gituserdata
+	var git_users Gitusers
+	var user Userdata
 	fmt.Println("add user")
 	fmt.Println("Enter username: ")
-	_, err := fmt.Scanln(&userdata.userName)
-	fmt.Println("Enter username: ")
-	_, err = fmt.Scanln(&userdata.userEmail)
-	fmt.Println("Enter username: ")
-	_, err = fmt.Scanln(&userdata.userToken)
+	_, err := fmt.Scanln(&user.Name)
+	fmt.Println("Enter e-mail: ")
+	_, err = fmt.Scanln(&user.Email)
+	fmt.Println("Enter token: ")
+	_, err = fmt.Scanln(&user.Token)
 
-	if userdata.userName != "" {
-		viper.SetDefault("users.user_name", userdata.userName)
-		viper.SetDefault("users.user_email", userdata.userEmail)
-		viper.SetDefault("users.user_token", userdata.userToken)
-		viper.WriteConfig()
-	}
+	git_users.Users = append(git_users.Users, user)
+	Writeuser(git_users)
 
 	if err != nil {
 		error.Error(err)
