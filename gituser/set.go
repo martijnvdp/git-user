@@ -3,22 +3,7 @@ package gituser
 import (
 	"fmt"
 	"os/exec"
-
-	"github.com/spf13/cobra"
 )
-
-var setCmd = &cobra.Command{
-	Use:   "set",
-	Short: "set active github user",
-	Long:  `set active user`,
-	Run: func(cmd *cobra.Command, args []string) {
-		setuser()
-	},
-}
-
-func init() {
-	rootCmd.AddCommand(setCmd)
-}
 
 func setuser() {
 	fmt.Println("Enter username: ")
