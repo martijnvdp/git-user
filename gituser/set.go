@@ -12,14 +12,14 @@ func Setuser(username string) {
 	viper.UnmarshalKey("users.Users", &users)
 	for _, usr := range users {
 		if usr.Name == username {
-			cmd := exec.Command("git", "config", "--local", "user.name", usr.Name)
-			_, err := cmd.Output()
-			cmd = exec.Command("git", "config", "--local", "user.email", usr.Email)
-			_, err = cmd.Output()
-			cmd = exec.Command("git", "config", "--global", "user.name", usr.Name)
-			_, err = cmd.Output()
-			cmd = exec.Command("git", "config", "--global", "user.email", usr.Email)
-			_, err = cmd.Output()
+			cmd, err := exec.Command("git", "config", "--local", "user.name", usr.Name).Output()
+			fmt.Println(string(cmd))
+			cmd, err = exec.Command("git", "config", "--local", "user.email", usr.Email).Output()
+			fmt.Println(string(cmd))
+			cmd, err = exec.Command("git", "config", "--global", "user.name", usr.Name).Output()
+			fmt.Println(string(cmd))
+			cmd, err = exec.Command("git", "config", "--global", "user.email", usr.Email).Output()
+			fmt.Println(string(cmd))
 			if err != nil {
 				fmt.Println(err.Error())
 				return
