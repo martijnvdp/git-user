@@ -35,8 +35,7 @@ type Userdata struct {
 }
 
 type Gitusers struct {
-	Users      []Userdata `mapstructure:"users"`
-	Configfile string     `mapstructure:"config_file"`
+	Users []Userdata `mapstructure:"users"`
 }
 
 // rootCmd represents the base command when called without any subcommands
@@ -56,6 +55,18 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+}
+func Getusers() *Gitusers {
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Printf("%v", err)
+	}
+	users := &Gitusers{}
+	err = viper.Unmarshal(users)
+	if err != nil {
+		fmt.Printf("unable to decode into config struct, %v", err)
+	}
+	return users
 }
 
 func init() {
