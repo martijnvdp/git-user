@@ -16,6 +16,17 @@ type Gitusers struct {
 	Users []Userdata `mapstructure:"users"`
 }
 
+func finduser(user string) (exist bool) {
+	var users []Userdata
+	viper.UnmarshalKey("users.Users", &users)
+	for _, usr := range users {
+		if usr.Name == user {
+			exist = true
+		}
+	}
+	return exist
+}
+
 func adduser() *Userdata {
 	var user Userdata
 	fmt.Println("add user")
@@ -35,8 +46,18 @@ func Adduser() {
 	var git_users Gitusers
 	var err error
 	var input string
+
+	var users []Userdata
+	viper.UnmarshalKey("users.Users", &users)
+
+	git_users.Users = append(git_users.Users, users...)
 	for addanother := true; addanother != false; {
-		git_users.Users = append(git_users.Users, *adduser())
+		usr := adduser()
+		if !finduser(usr.Name) {
+			git_users.Users = append(git_users.Users, *usr)
+		} else {
+			fmt.Println("User already exists")
+		}
 		println("Add another (yes/no)")
 		fmt.Scan(&input)
 		if input != "yes" && input != "y" {
