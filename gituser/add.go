@@ -31,19 +31,6 @@ func adduser() *Userdata {
 	return &user
 }
 
-func Getusers() *Gitusers {
-	err := viper.ReadInConfig()
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-	users := &Gitusers{}
-	err = viper.Unmarshal(users)
-	if err != nil {
-		fmt.Printf("unable to decode into config struct, %v", err)
-	}
-	return users
-}
-
 func Adduser() {
 	var git_users Gitusers
 	var err error
