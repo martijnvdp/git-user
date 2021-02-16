@@ -13,25 +13,10 @@ type Userdata struct {
 }
 
 type Gitusers struct {
-	Users      []Userdata `mapstructure:"users"`
-	Configfile string     `mapstructure:"config_file"`
+	Users []Userdata `mapstructure:"users"`
 }
 
-func Writeuser(usr Gitusers) {
-	for _, u := range usr.Users {
-
-		if u.Name != "" {
-			viper.Set("users.user_name", u.Name)
-			viper.Set("users.user_email", u.Email)
-			viper.Set("users.user_token", u.Token)
-			viper.WriteConfig()
-		}
-
-	}
-}
-
-func Adduser() {
-	var git_users Gitusers
+func adduser() *Userdata {
 	var user Userdata
 	fmt.Println("add user")
 	fmt.Println("Enter username: ")
@@ -40,9 +25,39 @@ func Adduser() {
 	_, err = fmt.Scanln(&user.Email)
 	fmt.Println("Enter token: ")
 	_, err = fmt.Scanln(&user.Token)
+	if err != nil {
+		fmt.Printf("%v", err)
+	}
+	return &user
+}
 
-	git_users.Users = append(git_users.Users, user)
-	Writeuser(git_users)
+func Getusers() *Gitusers {
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Printf("%v", err)
+	}
+	users := &Gitusers{}
+	err = viper.Unmarshal(users)
+	if err != nil {
+		fmt.Printf("unable to decode into config struct, %v", err)
+	}
+	return users
+}
+
+func Adduser() {
+	var git_users Gitusers
+	var err error
+	var input string
+	for addanother := true; addanother != false; {
+		git_users.Users = append(git_users.Users, *adduser())
+		println("Add another (yes/no)")
+		fmt.Scan(&input)
+		if input != "yes" && input != "y" {
+			addanother = false
+		}
+	}
+	viper.Set("users", git_users)
+	viper.WriteConfig()
 
 	if err != nil {
 		error.Error(err)
