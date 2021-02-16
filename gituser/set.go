@@ -5,24 +5,19 @@ import (
 	"os/exec"
 )
 
-func setuser() {
-	fmt.Println("Enter username: ")
-	var username string
-	var email string
-	_, err := fmt.Scanln(&username)
-	fmt.Println("Enter email: ")
-	_, err = fmt.Scanln(&email)
+func setuser(username string) {
+	git_users := Getusers()
+	for _, usr := range git_users.Users {
+		if usr.Name == username {
+			cmd := exec.Command("git", "config", "--Global", "user.name", usr.Name)
+			_, err := cmd.Output()
+			cmd = exec.Command("git", "config", "--Global", "user.email", usr.Email)
+			_, err = cmd.Output()
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
 
-	if err != nil {
-		error.Error(err)
-	} else {
-		cmd := exec.Command("git", "config", "--local", "user.name", username)
-		_, err := cmd.Output()
-		cmd = exec.Command("git", "config", "--local", "user.email", email)
-		_, err = cmd.Output()
-		if err != nil {
-			fmt.Println(err.Error())
-			return
 		}
 	}
 }
