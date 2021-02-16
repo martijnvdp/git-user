@@ -12,15 +12,13 @@ func Setuser(username string) {
 	viper.UnmarshalKey("users.Users", &users)
 	for _, usr := range users {
 		if usr.Name == username {
-			cmd, err := exec.Command("git", "config", "--local", "user.name", usr.Name).Output()
-			fmt.Println(string(cmd))
-			cmd, err = exec.Command("git", "config", "--local", "user.email", usr.Email).Output()
-			fmt.Println(string(cmd))
-			cmd, err = exec.Command("git", "config", "--global", "user.name", usr.Name).Output()
-			fmt.Println(string(cmd))
-			cmd, err = exec.Command("git", "config", "--global", "user.email", usr.Email).Output()
-			fmt.Println(string(cmd))
-			if err != nil {
+			_, err := exec.Command("git", "config", "--local", "user.name", usr.Name).Output()
+			_, err = exec.Command("git", "config", "--local", "user.email", usr.Email).Output()
+			_, err = exec.Command("git", "config", "--global", "user.name", usr.Name).Output()
+			_, err = exec.Command("git", "config", "--global", "user.email", usr.Email).Output()
+			if err == nil {
+				fmt.Println("switched to user: ", username)
+			} else {
 				fmt.Println(err.Error())
 				return
 			}
