@@ -45,8 +45,19 @@ var rootCmd = &cobra.Command{
 	Short: "git-user a cli util to switch between git user profiles",
 	Long: `git-user a cli util to switch between git user profiles
  For example:
+ add users:
+ git-user add
+ 
+ list users:
+ git-user -l
 
-git-user username`,
+ switch user:
+ git-user -u username
+ git-user --user username
+ 
+ show current git config:
+ git-user status
+ `,
 	Run: func(cmd *cobra.Command, args []string) {
 		l, _ := cmd.Flags().GetBool("list")
 		u, _ := cmd.Flags().GetString("user")
