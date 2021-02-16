@@ -22,7 +22,6 @@ func Setuser(username string) {
 				fmt.Println(err.Error())
 				return
 			}
-
 		}
 	}
 }
