@@ -20,6 +20,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/martijnxd/git-user/gituser"
 	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -46,6 +47,12 @@ var rootCmd = &cobra.Command{
  For example:
 
 git-user username`,
+	Run: func(cmd *cobra.Command, args []string) {
+		l, _ := cmd.Flags().GetBool("list")
+		if l {
+			gituser.Listusers()
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -55,25 +62,17 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-}
-func Getusers() *Gitusers {
-	err := viper.ReadInConfig()
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-	users := &Gitusers{}
-	err = viper.Unmarshal(users)
-	if err != nil {
-		fmt.Printf("unable to decode into config struct, %v", err)
-	}
-	return users
+
 }
 
 func init() {
+	var l bool
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.git-user.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().BoolVarP(&l, "list", "l", false, "list users from the config file.")
+
 }
 
 // initConfig reads in config file and ENV variables if set.
