@@ -36,7 +36,5 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	var a string
 	rootCmd.AddCommand(addCmd)
-	userCmd.Flags().StringVarP(&a, "add", "a", "", "add user profile")
 }
