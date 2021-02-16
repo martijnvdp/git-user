@@ -49,6 +49,10 @@ var rootCmd = &cobra.Command{
 git-user username`,
 	Run: func(cmd *cobra.Command, args []string) {
 		l, _ := cmd.Flags().GetBool("list")
+		u, _ := cmd.Flags().GetString("user")
+		if u != "" {
+			gituser.Setuser(u)
+		}
 		if l {
 			gituser.Listusers()
 		}
@@ -67,11 +71,13 @@ func Execute() {
 
 func init() {
 	var l bool
+	var u string
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.git-user.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().BoolVarP(&l, "list", "l", false, "list users from the config file.")
+	rootCmd.Flags().StringVarP(&u, "user", "u", "", "user profile")
 
 }
 
