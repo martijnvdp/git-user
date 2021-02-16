@@ -46,7 +46,6 @@ func Adduser() {
 	var git_users Gitusers
 	var err error
 	var input string
-
 	var users []Userdata
 	viper.UnmarshalKey("users.Users", &users)
 
