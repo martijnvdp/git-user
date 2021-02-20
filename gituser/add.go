@@ -59,6 +59,7 @@ func Adduser() {
 		}
 		println("Add another (yes/no)")
 		fmt.Scan(&input)
+		fmt.Scanln()
 		if input != "yes" && input != "y" {
 			addanother = false
 		}
