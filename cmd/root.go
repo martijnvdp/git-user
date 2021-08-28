@@ -29,16 +29,6 @@ import (
 
 var cfgFile string
 
-type Userdata struct {
-	Name  string `mapstructure:"name"`
-	Email string `mapstructure:"email"`
-	Token string `mapstructure:"token"`
-}
-
-type Gitusers struct {
-	Users []Userdata `mapstructure:"users"`
-}
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "git-user",
@@ -57,6 +47,10 @@ var rootCmd = &cobra.Command{
  
  show current git config:
  git-user status
+
+ test current git config:
+ git-user test
+ 
  `,
 	Run: func(cmd *cobra.Command, args []string) {
 		l, _ := cmd.Flags().GetBool("list")
@@ -94,7 +88,7 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	var git_users Gitusers
+	var git_users gituser.Gitusers
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
