@@ -57,6 +57,10 @@ var rootCmd = &cobra.Command{
  
  show current git config:
  git-user status
+
+ test current git config:
+ git-user test
+ 
  `,
 	Run: func(cmd *cobra.Command, args []string) {
 		l, _ := cmd.Flags().GetBool("list")
