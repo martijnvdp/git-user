@@ -13,5 +13,6 @@ func Listusers() {
 	for _, usr := range users {
 		fmt.Println(" account: ", usr.Name)
 		fmt.Println(" mail: ", usr.Email)
+		fmt.Println(" key_file: ", usr.Keyfilename)
 	}
 }

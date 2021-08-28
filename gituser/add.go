@@ -7,9 +7,9 @@ import (
 )
 
 type Userdata struct {
-	Name  string `mapstructure:"name"`
-	Email string `mapstructure:"email"`
-	Pkf   string `mapstructure:"pub_key_filename"`
+	Name        string `mapstructure:"name"`
+	Email       string `mapstructure:"email"`
+	Keyfilename string `mapstructure:"keyfilename"`
 }
 
 type Gitusers struct {
@@ -34,8 +34,8 @@ func adduser() *Userdata {
 	_, err := fmt.Scanln(&user.Name)
 	fmt.Println("Enter e-mail: ")
 	_, err = fmt.Scanln(&user.Email)
-	fmt.Println("Enter public key filename: ")
-	_, err = fmt.Scanln(&user.Pkf)
+	fmt.Println("Enter openssh key filename: ")
+	_, err = fmt.Scanln(&user.Keyfilename)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
