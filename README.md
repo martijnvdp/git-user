@@ -2,6 +2,9 @@
 git switch user tool
  testing & learning cli
 
+switches git user , using git config
+and copies the specified key file to id_rsa file in the .ssh profile
+
 ## Usage ##
 ```
 git-user a cli util to switch between git user profiles
