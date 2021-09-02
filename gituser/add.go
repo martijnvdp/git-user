@@ -30,11 +30,11 @@ func finduser(user string) (exist bool) {
 func adduser() *Userdata {
 	var user Userdata
 	fmt.Println("add user")
-	fmt.Println("Enter username: ")
+	fmt.Println("Enter github username: ")
 	_, err := fmt.Scanln(&user.Name)
-	fmt.Println("Enter e-mail: ")
+	fmt.Println("Enter the related e-mail address: ")
 	_, err = fmt.Scanln(&user.Email)
-	fmt.Println("Enter openssh key filename: ")
+	fmt.Println("Enter source openssh key filename for this user:\n(must reside in the .ssh folder) ")
 	_, err = fmt.Scanln(&user.Keyfilename)
 	if err != nil {
 		fmt.Printf("%v", err)
